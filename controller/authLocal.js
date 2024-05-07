@@ -65,7 +65,8 @@ exports.getSignup = (req, res) => {
     return res.redirect('/');
   }
   res.render('signup', {
-    title: 'Create Account'
+    title: 'Create Account',
+    layout: false
   });
 };
 
@@ -92,7 +93,7 @@ exports.postSignup = async (req, res, next) => {
     const user = new User({
       username: req.body.username,
       email: req.body.email,
-      password: req.body.password
+      password: req.body.password,
     });
     await user.save();
     req.logIn(user, (err) => {

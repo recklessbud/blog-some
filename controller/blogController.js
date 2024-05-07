@@ -1,5 +1,6 @@
 const Blog = require("../model/blogSchema")
 const cloudinary = require("../middleware/cloudinary")
+const User = require('../model/userSchema')
 
 module.exports = {
    getFeed: async(req, res)=>{
