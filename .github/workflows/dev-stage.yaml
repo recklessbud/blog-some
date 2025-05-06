@@ -1,0 +1,35 @@
+name: Deploy dev stage
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      GOOGLE_CLIENTID: ${{ secrets.GOOGLE_CLIENTID }}
+      GOOGLE_SECRET: ${{ secrets.GOOGLE_SECRET }}
+      MONGO_URI: ${{ secrets.MONGO_URI }}
+      CLOUD_NAME: ${{ secrets.CLOUD_NAME }}
+      CLOUD_API_KEY: ${{ secrets.CLOUD_API_KEY }}
+      CLOUD_API_SECRET: ${{ secrets.CLOUD_API_SECRET }}
+      GH_TOKEN: ${{ secrets.GH_TOKEN }}
+    steps:
+    - uses: actions/checkout@v4
+      with:
+          fetch-depth: 0
+    - name: Use Node.js 18.x
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18.x'
+        cache: 'npm'
+    - name: clean cache
+      run: npm cache clean --force
+    - name: Install dependencies
+      run: npm install
+    - name: run start
+      run: npm run start
+
+      

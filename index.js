@@ -94,6 +94,6 @@ apps.use('/', mainRoutes)
 apps.use('/auth', googleRoutes)
 apps.use("/stories", blogRoutes)
 
-apps.listen(PORT, ()=>{
+apps.listen(PORT, ()=>{ 
     console.log(`server running in ${process.env.NODE_ENV} mode on port ${PORT}`);
 })
