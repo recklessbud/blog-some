@@ -16,6 +16,8 @@ jobs:
       CLOUD_API_KEY: ${{ secrets.CLOUD_API_KEY }}
       CLOUD_API_SECRET: ${{ secrets.CLOUD_API_SECRET }}
       GH_TOKEN: ${{ secrets.GH_TOKEN }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
     steps:
     - uses: actions/checkout@v4
       with:
@@ -27,9 +29,11 @@ jobs:
         cache: 'npm'
     - name: clean cache
       run: npm cache clean --force
+    - name: install aws
+      run: npm install -g aws
     - name: Install dependencies
       run: npm install
-    - name: run start
-      run: npm run start
+    - name: Create VPC
+      run: aws ec2 create-vpc --cidr-block 10.0.0.0/16
 
       
