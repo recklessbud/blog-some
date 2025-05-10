@@ -45,24 +45,11 @@ jobs:
         chmod 600 ~/.ssh/id_rsa
         echo "Host *" >> ~/.ssh/config
         echo "  StrictHostKeyChecking no" >> ~/.ssh/config
-    - name: Create env file
-      run: |
-        echo "${{ secrets.MONGO_URI }}" >> .env
-        echo "${{ secrets.GOOGLE_CLIENTID }}" >> .env	
-        echo "${{ secrets.GOOGLE_SECRET }}" >> .env	
-        echo "${{ secrets.CLOUD_NAME }}" >> .env	
-        echo "${{ secrets.CLOUD_API_KEY }}" >> .env	
-        echo "${{ secrets.CLOUD_API_SECRET }}" >> .env	
-        # echo "${{ secrets.GH_TOKEN }}" >> .env
-    - name: Copy env file
-      run: scp -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no .env ubuntu@${{ secrets.EC2_HOST }}:/home/ubuntu/blog-some
     - name: Deploy to EC2
       run: |
         ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.EC2_HOST }} << 'EOF'
         sudo apt-get update
         sudo apt-get install -y git npm 
-        rm -rf blog-some
-        git clone https://github.com/recklessbud/blog-some.git
         cd blog-some
         npm install
         npm run start
