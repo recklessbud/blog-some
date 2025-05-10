@@ -60,8 +60,8 @@ jobs:
       run: |
         ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.EC2_HOST }} << 'EOF'
         sudo apt-get update
-        sudo apt-get install -y nodejs git npm 
-        git pull origin main
+        sudo apt-get install -y git npm 
+        git clone https://github.com/recklessbud/blog-some.git
         cd blog-some
         npm install
         npm run start
