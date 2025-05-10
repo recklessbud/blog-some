@@ -43,8 +43,17 @@ jobs:
         mkdir -p ~/.ssh
         echo "${{ secrets.EC2_KEY }}" | base64 > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
-    - name: Upload env file
-      run: scp -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa C:/Users/reggi/Documents/backend/blog-some/.env ubuntu@${{ secrets.EC2_HOST }}:/home/ubuntu/blog-some
+    - name: Create env file
+      run: |
+        echo "${{ secrets.MONGO_URI }}" >> .env
+        echo "${{ secrets.GOOGLE_CLIENTID }}" >> .env	
+        echo "${{ secrets.GOOGLE_SECRET }}" >> .env	
+        echo "${{ secrets.CLOUD_NAME }}" >> .env	
+        echo "${{ secrets.CLOUD_API_KEY }}" >> .env	
+        echo "${{ secrets.CLOUD_API_SECRET }}" >> .env	
+        # echo "${{ secrets.GH_TOKEN }}" >> .env
+    - name: Copy env file
+      run: scp -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa .env ubuntu@${{ secrets.EC2_HOST }}:/home/ubuntu/blog-some
     - name: Deploy to EC2
       run: |
         ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.EC2_HOST }} << 'EOF'
