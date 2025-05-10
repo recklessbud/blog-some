@@ -52,7 +52,6 @@ jobs:
         sudo apt-get install -y git npm 
         cd blog-some
         npm install
-        npm run start
     - name: thank you
       run: echo "Deployed successfully😁😁"
       
