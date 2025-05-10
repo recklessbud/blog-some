@@ -16,6 +16,8 @@ jobs:
       CLOUD_API_KEY: ${{ secrets.CLOUD_API_KEY }}
       CLOUD_API_SECRET: ${{ secrets.CLOUD_API_SECRET }}
       GH_TOKEN: ${{ secrets.GH_TOKEN }}
+      EC2_HOST: ${{ secrets.EC2_HOST }}	
+      EC2_KEY: ${{ secrets.EC2_KEY }}
 
     steps:
     - uses: actions/checkout@v4
@@ -38,6 +40,7 @@ jobs:
         aws-region: us-east-1
     - name: Decode SSH and set permissions
       run: |
+        mkdir -p ~/.ssh
         echo "${{ secrets.EC2_KEY }}" | base64 > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
     - name: Upload env file
